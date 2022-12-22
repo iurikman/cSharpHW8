@@ -55,9 +55,9 @@ int GetPositiveNumber(string message)
 }
 
 // 3.функция получения двумерного массива
-int[,] GetRandomArray(int m, int minValue, int maxValue)
+int[,] GetRandomArray(int m, int n, int minValue, int maxValue)
 {
-    int [,] array = new int [m, m];
+    int [,] array = new int [m, n];
     Random rnd = new Random();
     for (int i = 0; i < array.GetLength(0); i++)
     {
@@ -78,22 +78,14 @@ int[,] ProductOfMatrix(int[,] firstArray, int[,] secondArray)
     {
         for (int j = 0; j < result.GetLength(1); j++)
         {
-            int subProduct = 0;
-            for (int k = 0; k < firstArray.GetLength(0); k++)
+            
+            for (int k = 0; k < secondArray.GetLength(0); k++)
             {
-                for (int l = 0; l < firstArray.GetLength(1); l++)
-                {
-                    if (k == l)
-                    {
-                        subProduct += firstArray[k,l] * secondArray[l,k];
-                    }
-                }
-            }
-            result[i, j] = subProduct;
-            subProduct = 0;
+                result[i, j] += firstArray[i,k] * secondArray[k,j];
+            }        
+
         }
     }
-
     return result;
 }
 
@@ -110,18 +102,26 @@ void PrintArray(int[,] array)
     }
 }
 
-int m = GetPositiveNumber("Введите m: ");
-int minValue = GetNumber("Введите minValue: ");
-int maxValue = GetNumber("Введите maxValue: ");
-int[,] firstArray = GetRandomArray(m, minValue, maxValue);
-Console.WriteLine();
-int[,] secondArray = GetRandomArray(m, minValue, maxValue);
-Console.WriteLine();
+int mf = GetPositiveNumber("Введите m первого массива: ");
+int nf = GetPositiveNumber("Введите n первого массива: ");
+int ms = GetPositiveNumber("Введите m второго массива: ");
+int ns = GetPositiveNumber("Введите n второго массива: ");
 
-Console.WriteLine("Матрица 1: ");
-PrintArray(firstArray); 
-Console.WriteLine("Матрица 2: ");
-PrintArray(secondArray); 
-int[,] productOfMatrix = ProductOfMatrix(firstArray, secondArray);
-Console.WriteLine();
-PrintArray(productOfMatrix); 
+if (mf == ns)
+{
+    int minValue = GetNumber("Введите minValue: ");
+    int maxValue = GetNumber("Введите maxValue: ");
+    int[,] firstArray = GetRandomArray(mf, nf, minValue, maxValue);
+    Console.WriteLine();
+    int[,] secondArray = GetRandomArray(ms, ns, minValue, maxValue);
+    Console.WriteLine();
+
+    Console.WriteLine("Матрица 1: ");
+    PrintArray(firstArray); 
+    Console.WriteLine("Матрица 2: ");
+    PrintArray(secondArray); 
+    int[,] productOfMatrix = ProductOfMatrix(firstArray, secondArray);
+    Console.WriteLine();
+    PrintArray(productOfMatrix); 
+}
+else Console.WriteLine("Размерность матриц не позволяет их перемножать");

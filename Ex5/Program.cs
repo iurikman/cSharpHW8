@@ -29,28 +29,77 @@ int GetNumber(string message)
 
 int[,] GetArray(int m, int n)
 {
-    int[,] array = new int[m,n];
-    int i = 0;
-    int j = 0;
-    int count = 0;
-    for (int k = 0; k < m*n; k++)
+    int[,] array = new int[m, n];
+
+    int startL = 0;
+    int endL = n - 1;
+
+    int startH = 0;
+    int endH = m - 1;
+    int number = 1;
+    while (number <= n * m)
     {
-        if (array[i,j+1] == 0)
+
+        // идем вправо
+        for (int k = startL; k < endL; k++)
         {
-            j++;
-        } else if (i < n - j) 
-        {
-            i++;
+            if (number <= m * n)
+            {
+                array[startL, k] = number;
+                number++; 
+            }
+
         }
-        else if (j =)
+        // идем вниз
+        for (int k = startH; k < endH; k++)
         {
-            i--;
+            if (number <= m * n)
+            {
+                array[k, endL] = number;
+                number++;   
+            }        
         }
-        else if ()
+        // идем влево
+        for (int k = endL; k >= startL; k--)
         {
-            j--;
+            if (number <= m * n)
+            {            
+                array[endH, k] = number;
+                number++;
+            }
         }
-        array[i, j] = count + 1;
+        // идем вверх
+        endH--;
+        for (int k = endH; k > startH; k--)
+        {
+            if (number <= m * n)
+            {            
+                array[k, startL] = number;
+                number++; 
+            }          
+        }
+        startL++;
+        endL--;
+        startH++;
+
+    }
+    return array;
+}
+
+// 5.функция печати массива
+void PrintArray(int[,] array)
+{
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+        for (int j = 0; j < array.GetLength(1); j++)
+        {
+            Console.Write($"{array[i,j]} ");
+        }
+        Console.WriteLine();
     }
 }
 
+int m = GetNumber("Введите m: ");
+int n = GetNumber("Введите n: ");
+int [,] array = GetArray(m, n);
+PrintArray(array);
